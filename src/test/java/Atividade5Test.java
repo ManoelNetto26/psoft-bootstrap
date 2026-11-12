@@ -19,6 +19,28 @@ public class Atividade5Test {
         if (pedido.getModalidade() != economica || controlador.listarPedidos().size() != 1) {
             throw new AssertionError("pedido não registrado ou modalidade não alterada");
         }
+
+        ModalidadeEntrega novaModalidade = new ModalidadeEntrega() {
+            @Override
+            public String getNome() {
+                return "Personalizada";
+            }
+
+            @Override
+            public double calcularCusto(Pedido pedido) {
+                return 7.0;
+            }
+
+            @Override
+            public int calcularPrazoEmDias(Pedido pedido) {
+                return 3;
+            }
+        };
+        Pedido pedidoPersonalizado = new Pedido("P2", "Bia", "Origem", "Destino", 2, 40, novaModalidade);
+        controlador.registrarPedido(pedidoPersonalizado);
+        conferir(pedidoPersonalizado.calcularCusto(), 7.0, "nova modalidade sem alterar o controlador");
+        conferir(pedidoPersonalizado.calcularPrazoEmDias(), 3, "prazo de nova modalidade");
+
         esperarExcecao(IllegalArgumentException.class, () -> controlador.registrarPedido(pedido));
 
         controlador.despacharPedido("P1");
