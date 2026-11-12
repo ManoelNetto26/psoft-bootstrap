@@ -1,2 +1,2 @@
 
-# Repositório base das atividades da disciplina
+# psoft_atv5: Strategy, Bridge, Singleton and Command patterns
